@@ -1,19 +1,18 @@
-// Config is taken from <body data-*> so you can edit in index.html only
+// Branje nastavitev iz <body data-*>
 const body = document.body;
 const CFG = {
   cfx: (body.dataset.cfx || 'CFX_CODE').trim(),
   ip: (body.dataset.ip || 'SERVER_IP').trim(),
   port: (body.dataset.port || '30120').trim(),
-  discord: (body.dataset.discord || 'https://discord.gg/YOUR_INVITE').trim(),
+  discord: (body.dataset.discord || '').trim(),
   discordId: (body.dataset.discordId || 'DISCORD_SERVER_ID').trim(),
 };
 
-// DOM refs
+// Povezave in elementi
 const $ = (s) => document.querySelector(s);
 const statusBox = document.querySelector('.status');
 const statusText = $('#statusText');
 const playersCount = $('#playersCount');
-const statusDot = $('#statusDot');
 const discordLinks = ['#discordLink', '#discordLink2', '#discordLink3'].map(s => $(s));
 const playCfx = $('#playCfx');
 const playDirect = $('#playDirect');
@@ -23,9 +22,9 @@ const copyCfx = $('#copyCfx');
 const connectCommand = $('#connectCommand');
 const discordWidget = $('#discordWidget');
 
-// Mobile nav toggle
+// Mobilni meni
 const toggle = document.querySelector('.nav-toggle');
-const menu = document.getElementById('menu');
+const menu = document.getElementById('meni');
 if (toggle && menu) {
   toggle.addEventListener('click', () => {
     const expanded = toggle.getAttribute('aria-expanded') === 'true';
@@ -40,28 +39,26 @@ if (toggle && menu) {
   });
 }
 
-// Footer year
+// Leto v footerju
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Set links from config
-discordLinks.forEach(a => { if (a) a.href = CFG.discord; });
+// Nastavi povezave iz konfiguracije
+discordLinks.forEach(a => { if (a && CFG.discord) a.href = CFG.discord; });
 if (playCfx) playCfx.href = CFG.cfx && CFG.cfx !== 'CFX_CODE' ? `https://cfx.re/join/${CFG.cfx}` : '#';
 if (cfxLink) cfxLink.href = playCfx ? playCfx.href : '#';
 if (connectCommand) connectCommand.textContent = `connect ${CFG.ip}:${CFG.port}`;
 if (playDirect) playDirect.href = `fivem://connect/${CFG.ip}:${CFG.port}`;
 
-// Discord widget
+// Discord widget (light tema)
 if (discordWidget && CFG.discordId && CFG.discordId !== 'DISCORD_SERVER_ID') {
-  discordWidget.src = `https://discord.com/widget?id=${CFG.discordId}&theme=dark`;
+  discordWidget.src = `https://discord.com/widget?id=${CFG.discordId}&theme=light`;
 } else if (discordWidget) {
-  // Hide widget if ID not set
   discordWidget.parentElement.style.display = 'none';
 }
 
-// Copy buttons
+// Gumba "Kopiraj"
 function copyText(text, btn) {
   if (!navigator.clipboard) {
-    // Fallback
     const ta = document.createElement('textarea');
     ta.value = text; document.body.appendChild(ta); ta.select();
     try { document.execCommand('copy'); } finally { document.body.removeChild(ta); }
@@ -70,7 +67,7 @@ function copyText(text, btn) {
   }
   if (btn) {
     const prev = btn.textContent;
-    btn.textContent = 'Copied!';
+    btn.textContent = 'Kopirano!';
     setTimeout(() => (btn.textContent = prev), 1200);
   }
 }
@@ -79,16 +76,16 @@ if (copyCfx) copyCfx.addEventListener('click', () => {
   if (CFG.cfx && CFG.cfx !== 'CFX_CODE') copyText(`https://cfx.re/join/${CFG.cfx}`, copyCfx);
 });
 
-// Server status (tries cfx API first; falls back to players.json). May be limited by CORS.
-async function checkStatus() {
+// Status strežnika (cfx API -> fallback info.json/players.json). CORS lahko blokira neposreden IP.
+async function preveriStatus() {
   const setState = (state, text, players) => {
     statusBox.classList.remove('ok', 'warn', 'err');
     statusBox.classList.add(state);
     statusText.textContent = text;
-    playersCount.textContent = players ? `• ${players}` : '';
+    playersCount.textContent = players ? ` • ${players}` : '';
   };
 
-  // Try cfx.re API if we have a code
+  // cfx.re API
   if (CFG.cfx && CFG.cfx !== 'CFX_CODE') {
     try {
       const r = await fetch(`https://servers-frontend.fivem.net/api/servers/single/${CFG.cfx}`, { cache: 'no-store' });
@@ -98,14 +95,14 @@ async function checkStatus() {
         const clients = data?.Data?.clients ?? 0;
         const max = data?.Data?.sv_maxclients ?? 0;
         if (online) {
-          setState('ok', 'Online', `${clients}/${max} players`);
+          setState('ok', 'Na spletu', `${clients}/${max} igralcev`);
           return;
         }
       }
-    } catch (e) { /* ignore */ }
+    } catch (e) { /* ignoriraj */ }
   }
 
-  // Fallback: direct endpoints (may fail due to CORS)
+  // Fallback: neposredno (lahko blokira CORS)
   const base = `http://${CFG.ip}:${CFG.port}`;
   try {
     const [infoR, playersR] = await Promise.allSettled([
@@ -122,13 +119,13 @@ async function checkStatus() {
       max = info?.vars?.sv_maxClients || info?.vars?.sv_maxclients || 0;
     }
     if (clients > 0 || max > 0) {
-      setState('ok', 'Online', `${clients}/${max || '?'} players`);
+      setState('ok', 'Na spletu', `${clients}/${max || '?'} igralcev`);
     } else {
-      setState('warn', 'Status unknown', 'Click “Play via cfx.re”');
+      setState('warn', 'Stanje neznano', 'Klikni “Igraj prek cfx.re”');
     }
   } catch {
-    setState('warn', 'Status unknown', 'Click “Play via cfx.re”');
+    setState('warn', 'Stanje neznano', 'Klikni “Igraj prek cfx.re”');
   }
 }
-checkStatus();
-setInterval(checkStatus, 60_000);
+preveriStatus();
+setInterval(preveriStatus, 60_000);
