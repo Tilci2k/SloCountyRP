@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SloCountyRP — Slovenian FiveM Roleplay</title>
+  <meta name="description" content="SloCountyRP · Slovenian FiveM roleplay community. Join our Discord, apply, and hop in the city." />
+  <meta name="theme-color" content="#3b82f6" />
+
+  <!-- Social sharing -->
+  <meta property="og:title" content="SloCountyRP — Slovenian FiveM Roleplay" />
+  <meta property="og:description" content="Serious RP • Active staff • Slovenian community. Join and play today!" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://placehold.co/1200x630/111827/ffffff?text=SloCountyRP" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body
+  data-cfx="CFX_CODE"
+  data-ip="SERVER_IP"
+  data-port="30120"
+  data-discord="https://discord.gg/YOUR_INVITE"
+  data-discord-id="DISCORD_SERVER_ID"
+>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="container nav" aria-label="Main">
+      <a class="logo" href="#home">SloCountyRP</a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Toggle menu">☰</button>
+      <ul id="menu" class="menu">
+        <li><a href="#about">About</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#departments">Departments</a></li>
+        <li><a href="#join">How to Join</a></li>
+        <li><a href="#rules">Rules</a></li>
+        <li><a href="#discord">Discord</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <h1>SloCountyRP</h1>
+          <p class="lead">Slovenian FiveM roleplay community. Serious RP, friendly staff, optimized performance — hop in and make your story.</p>
+          <div class="actions">
+            <a id="discordLink" class="btn btn-discord" href="#" target="_blank" rel="noopener">Join Discord</a>
+            <a id="playCfx" class="btn" href="#" target="_blank" rel="noopener">Play via cfx.re</a>
+            <a id="playDirect" class="btn btn-ghost" href="#">Direct Connect</a>
+          </div>
+          <div class="status">
+            <span class="dot" id="statusDot" aria-hidden="true"></span>
+            <span id="statusText">Checking server…</span>
+            <span id="playersCount" class="muted"></span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <!-- Optional hero image -->
+          <img src="https://images.unsplash.com/photo-1519052537078-e6302a4968d4?q=80&w=1200&auto=format&fit=crop" alt="" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section container">
+      <h2>About</h2>
+      <p>SloCountyRP is a Slovenia-based FiveM roleplay server focused on immersive, respectful roleplay. We offer custom jobs, balanced economy, and a welcoming community. Whether you want police, EMS, firefighter, mechanic, or civilian life — we’ve got space for your character to grow.</p>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="section container">
+      <h2>Features</h2>
+      <div class="grid features">
+        <article class="card"><h3>🇸🇮 Slovenian RP</h3><p>Local community and events tailored for Slovenian players.</p></article>
+        <article class="card"><h3>⚙️ Custom Scripts</h3><p>Unique jobs, vehicles, and QoL systems for smoother gameplay.</p></article>
+        <article class="card"><h3>🧠 Serious Roleplay</h3><p>Clear rules, realistic scenarios, and quality storytelling.</p></article>
+        <article class="card"><h3>🚓 Public Services</h3><p>Policija, Reševalci (EMS), Gasilci, plus civilian careers.</p></article>
+        <article class="card"><h3>🛠 Performance</h3><p>Optimized server for low latency and stable FPS.</p></article>
+        <article class="card"><h3>🛡 Active Staff</h3><p>Friendly moderation team and quick support response.</p></article>
+      </div>
+    </section>
+
+    <!-- DEPARTMENTS -->
+    <section id="departments" class="section container">
+      <h2>Departments</h2>
+      <div class="grid depts">
+        <article class="card"><h3>Policija</h3><p>Law enforcement, patrols, investigations, traffic.</p></article>
+        <article class="card"><h3>Reševalci (EMS)</h3><p>Medical response, rescue, hospital care.</p></article>
+        <article class="card"><h3>Gasilci</h3><p>Firefighting, scene safety, emergencies.</p></article>
+        <article class="card"><h3>Mehaniki</h3><p>Repairs, upgrades, roadside assistance.</p></article>
+        <article class="card"><h3>Civilian</h3><p>Businesses, jobs, social RP, and more.</p></article>
+      </div>
+    </section>
+
+    <!-- HOW TO JOIN -->
+    <section id="join" class="section container">
+      <h2>How to Join</h2>
+      <ol class="steps">
+        <li>Install GTA V and <a href="https://fivem.net" target="_blank" rel="noopener">FiveM</a>.</li>
+        <li>Join our <a id="discordLink2" href="#" target="_blank" rel="noopener">Discord</a> to see announcements and rules.</li>
+        <li>(If whitelisted) Submit an application in Discord.</li>
+        <li>Connect:
+          <div class="connect">
+            <p><strong>Direct (F8):</strong> <code id="connectCommand">connect SERVER_IP:30120</code> <button id="copyDirect" class="chip">Copy</button></p>
+            <p><strong>cfx.re:</strong> <a id="cfxLink" href="#" target="_blank" rel="noopener">https://cfx.re/join/CFX_CODE</a> <button id="copyCfx" class="chip">Copy</button></p>
+          </div>
+        </li>
+      </ol>
+      <p class="muted">Tip: Click “Play via cfx.re” above to auto-launch FiveM if it’s installed.</p>
+    </section>
+
+    <!-- RULES -->
+    <section id="rules" class="section container">
+      <h2>Server Rules (Short)</h2>
+      <ul class="rules">
+        <li>Respect all players and staff. No harassment or hate speech.</li>
+        <li>No RDM/VDM. Value your character’s life at all times.</li>
+        <li>No powergaming or metagaming; keep info in character.</li>
+        <li>No cheating, exploiting, or bug abuse.</li>
+        <li>Follow role-specific guidelines (police/EMS/fire/mechanic).</li>
+        <li>Use voice properly; clear comms during scenes.</li>
+      </ul>
+      <p>Full rules are pinned in <a href="#discord">Discord</a>. Violations may lead to warnings, kicks, or bans.</p>
+    </section>
+
+    <!-- DISCORD -->
+    <section id="discord" class="section container">
+      <h2>Discord</h2>
+      <p>All announcements, applications, and support run through our Discord.</p>
+      <p><a id="discordLink3" class="btn btn-discord" href="#" target="_blank" rel="noopener">Join Discord</a></p>
+
+      <!-- Optional Discord widget (set your server ID in body[data-discord-id]) -->
+      <div class="discord-widget">
+        <iframe id="discordWidget"
+          title="Discord"
+          width="100%" height="400"
+          frameborder="0"
+          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+          allowtransparency="true">
+        </iframe>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section container">
+      <h2>FAQ</h2>
+      <details><summary>Do I need to speak Slovenian?</summary><p>We’re a Slovenian community and encourage Slovenian in RP. Some English is fine where appropriate.</p></details>
+      <details><summary>Is this server whitelisted?</summary><p>Whitelist status and application instructions are posted in Discord.</p></details>
+      <details><summary>Minimum age?</summary><p>Check Discord for current age policy.</p></details>
+      <details><summary>How do I report a rule-break?</summary><p>Use the ticket system in Discord and provide clips/screenshots.</p></details>
+      <details><summary>Can I donate?</summary><p>If you’d like to support the server, look for the donate/store channel in Discord.</p></details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> SloCountyRP · Non-commercial fan project for GTA V / FiveM. All trademarks belong to their respective owners.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
