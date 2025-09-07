@@ -1,168 +1,131 @@
-<!doctype html>
-<html lang="sl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SloCountyRP — Slovenski FiveM roleplay strežnik</title>
-  <meta name="description" content="SloCountyRP — Slovenski FiveM RP strežnik. Pridruži se Discordu, pridobi vlogo Whitelist in se poveži v mesto." />
-  <meta name="theme-color" content="#f97316" />
+// Branje nastavitev iz <body data-*>
+const body = document.body;
+const CFG = {
+  cfx: (body.dataset.cfx || 'CFX_CODE').trim(),
+  ip: (body.dataset.ip || 'SERVER_IP').trim(),
+  port: (body.dataset.port || '30120').trim(),
+  discord: (body.dataset.discord || '').trim(),
+  discordId: (body.dataset.discordId || 'DISCORD_SERVER_ID').trim(),
+};
 
-  <!-- Social -->
-  <meta property="og:title" content="SloCountyRP — Slovenski FiveM RP" />
-  <meta property="og:description" content="Resen RP • Aktivna ekipa • Slovenska skupnost. Vstopi in zaživi svojo zgodbo." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/logo-og.png" />
-  <meta property="og:locale" content="sl_SI" />
-  <link rel="icon" href="assets/logo-64.png" sizes="64x64" />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body
-  data-cfx="CFX_CODE"
-  data-ip="SERVER_IP"
-  data-port="30120"
-  data-discord="https://discord.gg/FDjVj42DKe"
-  data-discord-id="DISCORD_SERVER_ID"
->
-  <a class="skip-link" href="#glavna">Preskoči na vsebino</a>
+// Povezave in elementi
+const $ = (s) => document.querySelector(s);
+const statusBox = document.querySelector('.status');
+const statusText = $('#statusText');
+const playersCount = $('#playersCount');
+const discordLinks = ['#discordLink', '#discordLink2', '#discordLink3'].map(s => $(s));
+const playCfx = $('#playCfx');
+const playDirect = $('#playDirect');
+const cfxLink = $('#cfxLink');
+const copyDirect = $('#copyDirect');
+const copyCfx = $('#copyCfx');
+const connectCommand = $('#connectCommand');
+const discordWidget = $('#discordWidget');
 
-  <header class="site-header">
-    <nav class="container nav" aria-label="Glavna navigacija">
-      <a class="logo" href="#domov">
-        <img src="assets/logo.png" alt="Logotip SloCountyRP" class="logo-img" />
-        <span>SloCountyRP</span>
-      </a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="meni" aria-label="Odpri meni">☰</button>
-      <ul id="meni" class="menu">
-        <li><a href="#o-nas">O nas</a></li>
-        <li><a href="#funkcije">Funkcije</a></li>
-        <li><a href="#oddelki">Oddelki</a></li>
-        <li><a href="#pridruzitev">Pridružitev</a></li>
-        <li><a href="#pravila">Pravila</a></li>
-        <li><a href="#discord">Discord</a></li>
-        <li><a href="#faq">FAQ</a></li>
-      </ul>
-    </nav>
-  </header>
+// Mobilni meni
+const toggle = document.querySelector('.nav-toggle');
+const menu = document.getElementById('meni');
+if (toggle && menu) {
+  toggle.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    menu.classList.toggle('open');
+  });
+  menu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      menu.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
 
-  <main id="glavna">
-    <!-- HERO -->
-    <section id="domov" class="hero container">
-      <div class="brand">
-        <img src="assets/logo.png" alt="Logotip SloCountyRP" class="brand-logo" />
-      </div>
-      <div class="hero-text">
-        <h1>SloCountyRP</h1>
-        <p class="lead">Slovenski FiveM roleplay strežnik. Čist RP, prijazna ekipa in gladko delovanje.</p>
-        <div class="actions">
-          <a id="discordLink" class="btn btn-accent" href="#" target="_blank" rel="noopener">Pridruži se Discordu</a>
-          <a id="playCfx" class="btn btn-dark" href="#" target="_blank" rel="noopener">Igraj prek cfx.re</a>
-          <a id="playDirect" class="btn btn-ghost" href="#">Neposredna povezava</a>
-        </div>
-        <div class="status" aria-live="polite">
-          <span class="dot" aria-hidden="true"></span>
-          <span id="statusText">Preverjam strežnik …</span>
-          <span id="playersCount" class="muted"></span>
-        </div>
-      </div>
-    </section>
+// Leto v footerju
+document.getElementById('year').textContent = new Date().getFullYear();
 
-    <!-- O NAS -->
-    <section id="o-nas" class="section container">
-      <h2>O nas</h2>
-      <p>SloCountyRP je slovenska FiveM RP skupnost, osredotočena na realistične scene, spoštljivo igro in domače okolje. Ponuja uravnoteženo ekonomijo, prilagojene službe in mesto, kjer lahko tvoj lik zraste.</p>
-    </section>
+// Nastavi povezave iz konfiguracije
+discordLinks.forEach(a => { if (a && CFG.discord) a.href = CFG.discord; });
+if (playCfx) playCfx.href = CFG.cfx && CFG.cfx !== 'CFX_CODE' ? `https://cfx.re/join/${CFG.cfx}` : '#';
+if (cfxLink) cfxLink.href = playCfx ? playCfx.href : '#';
+if (connectCommand) connectCommand.textContent = `connect ${CFG.ip}:${CFG.port}`;
+if (playDirect) playDirect.href = `fivem://connect/${CFG.ip}:${CFG.port}`;
 
-    <!-- FUNKCIJE -->
-    <section id="funkcije" class="section container">
-      <h2>Funkcije</h2>
-      <div class="grid">
-        <article class="card"><h3>🇸🇮 Slovenski RP</h3><p>Dogodki in skupnost za slovenske igralce.</p></article>
-        <article class="card"><h3>⚙️ Custom skripte</h3><p>Edinstveni jobi, vozila in QoL izboljšave.</p></article>
-        <article class="card"><h3>🧠 Resen RP</h3><p>Jasna pravila, kakovostne scene in zgodbe.</p></article>
-        <article class="card"><h3>🚓 Javne službe</h3><p>Policija, Reševalci (EMS), Gasilci, Mehaniki.</p></article>
-        <article class="card"><h3>🛠 Optimizacija</h3><p>Nizka zakasnitev in stabilen FPS.</p></article>
-        <article class="card"><h3>🛡 Aktivna ekipa</h3><p>Prijazna moderacija in hiter support.</p></article>
-      </div>
-    </section>
+// Discord widget (light tema)
+if (discordWidget && CFG.discordId && CFG.discordId !== 'DISCORD_SERVER_ID') {
+  discordWidget.src = `https://discord.com/widget?id=${CFG.discordId}&theme=light`;
+} else if (discordWidget) {
+  discordWidget.parentElement.style.display = 'none';
+}
 
-    <!-- ODDELKI -->
-    <section id="oddelki" class="section container">
-      <h2>Oddelki</h2>
-      <div class="grid">
-        <article class="card"><h3>Policija</h3><p>Patrulje, preiskave, promet.</p></article>
-        <article class="card"><h3>Reševalci (EMS)</h3><p>Nujna pomoč, reševanje, bolnišnica.</p></article>
-        <article class="card"><h3>Gasilci</h3><p>Gašenje, zavarovanje prizorišč, nesreče.</p></article>
-        <article class="card"><h3>Mehaniki</h3><p>Popravila, predelave, pomoč na cesti.</p></article>
-        <article class="card"><h3>Civilisti</h3><p>Posli, službe, družabni RP in več.</p></article>
-      </div>
-    </section>
+// Gumba "Kopiraj"
+function copyText(text, btn) {
+  if (!navigator.clipboard) {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } finally { document.body.removeChild(ta); }
+  } else {
+    navigator.clipboard.writeText(text).catch(() => {});
+  }
+  if (btn) {
+    const prev = btn.textContent;
+    btn.textContent = 'Kopirano!';
+    setTimeout(() => (btn.textContent = prev), 1200);
+  }
+}
+if (copyDirect) copyDirect.addEventListener('click', () => copyText(`connect ${CFG.ip}:${CFG.port}`, copyDirect));
+if (copyCfx) copyCfx.addEventListener('click', () => {
+  if (CFG.cfx && CFG.cfx !== 'CFX_CODE') copyText(`https://cfx.re/join/${CFG.cfx}`, copyCfx);
+});
 
-    <!-- KAKO SE PRIDRUŽITI -->
-    <section id="pridruzitev" class="section container">
-      <h2>Kako se pridružiti</h2>
-      <ol class="steps">
-        <li>Namesti GTA V in <a href="https://fivem.net" target="_blank" rel="noopener">FiveM</a>.</li>
-        <li>Vstopi na naš <a id="discordLink2" href="#" target="_blank" rel="noopener">Discord</a>.</li>
-        <li>Pridobi vlogo <strong>Whitelist</strong> na Discordu (po navodilih v kanalih/verifikaciji). Brez te vloge povezava na strežnik ni omogočena.</li>
-        <li>Povezava:
-          <div class="connect">
-            <p><strong>F8 direktno:</strong> <code id="connectCommand">connect SERVER_IP:30120</code> <button id="copyDirect" class="chip">Kopiraj</button></p>
-            <p><strong>cfx.re:</strong> <a id="cfxLink" href="#" target="_blank" rel="noopener">https://cfx.re/join/CFX_CODE</a> <button id="copyCfx" class="chip">Kopiraj</button></p>
-          </div>
-        </li>
-      </ol>
-      <p class="muted">Namig: “Igraj prek cfx.re” samodejno odpre FiveM, če je nameščen.</p>
-    </section>
+// Status strežnika (cfx API -> fallback info.json/players.json). CORS lahko blokira neposreden IP.
+async function preveriStatus() {
+  const setState = (state, text, players) => {
+    statusBox.classList.remove('ok', 'warn', 'err');
+    statusBox.classList.add(state);
+    statusText.textContent = text;
+    playersCount.textContent = players ? ` • ${players}` : '';
+  };
 
-    <!-- PRAVILA -->
-    <section id="pravila" class="section container">
-      <h2>Pravila (kratko)</h2>
-      <ul class="rules">
-        <li>Spoštuj vse igralce in ekipo. Brez nadlegovanja ali sovražnega govora.</li>
-        <li>Brez RDM/VDM. Vedno ceni življenje svojega lika.</li>
-        <li>Brez powergaminga in metagaminga; loči IC in OOC informacije.</li>
-        <li>Prepovedano goljufanje, izkoriščanje bugov ali skript.</li>
-        <li>Upoštevaj navodila za posamezne vloge (policija/EMS/gasilci/mehaniki).</li>
-        <li>Govor in komunikacija naj bosta jasna in primerna sceni.</li>
-      </ul>
-      <p>Celotna pravila najdeš v <a href="#discord">Discordu</a>. Kršitve pomenijo opozorila, kick ali ban.</p>
-    </section>
+  // cfx.re API
+  if (CFG.cfx && CFG.cfx !== 'CFX_CODE') {
+    try {
+      const r = await fetch(`https://servers-frontend.fivem.net/api/servers/single/${CFG.cfx}`, { cache: 'no-store' });
+      if (r.ok) {
+        const data = await r.json();
+        const online = data?.Data?.clients >= 0;
+        const clients = data?.Data?.clients ?? 0;
+        const max = data?.Data?.sv_maxclients ?? 0;
+        if (online) {
+          setState('ok', 'Na spletu', `${clients}/${max} igralcev`);
+          return;
+        }
+      }
+    } catch (e) { /* ignoriraj */ }
+  }
 
-    <!-- DISCORD -->
-    <section id="discord" class="section container">
-      <h2>Discord</h2>
-      <p>Vsa obvestila, prijave in podpora potekajo na našem Discordu.</p>
-      <p><a id="discordLink3" class="btn btn-accent" href="#" target="_blank" rel="noopener">Pridruži se Discordu</a></p>
-
-      <!-- Izbirno: vtičnik Discord (nastavi data-discord-id v <body>) -->
-      <div class="discord-widget">
-        <iframe id="discordWidget"
-          title="Discord"
-          width="100%" height="380"
-          frameborder="0"
-          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-          allowtransparency="true">
-        </iframe>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="section container">
-      <h2>FAQ</h2>
-      <details><summary>Ali moram govoriti slovensko?</summary><p>Priporočamo slovenščino v RP. Angleščina je OK, kjer je smiselno.</p></details>
-      <details><summary>Je strežnik whitelistan?</summary><p>Da. V Discordu pridobiš vlogo Whitelist in šele nato se lahko povežeš.</p></details>
-      <details><summary>Minimalna starost?</summary><p>Preveri politiko starosti v Discordu.</p></details>
-      <details><summary>Kako prijavim kršitev?</summary><p>Odpri ticket v Discordu in priloži posnetke/slike.</p></details>
-      <details><summary>Ali lahko doniram?</summary><p>Informacije o donacijah in trgovini so v Discordu.</p></details>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> SloCountyRP · Neodvisen projekt za GTA V / FiveM. Vse blagovne znamke so last svojih imetnikov.</p>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
+  // Fallback: neposredno (lahko blokira CORS)
+  const base = `http://${CFG.ip}:${CFG.port}`;
+  try {
+    const [infoR, playersR] = await Promise.allSettled([
+      fetch(`${base}/info.json`, { cache: 'no-store' }),
+      fetch(`${base}/players.json`, { cache: 'no-store' })
+    ]);
+    let clients = 0, max = 0;
+    if (playersR.status === 'fulfilled' && playersR.value.ok) {
+      const arr = await playersR.value.json();
+      clients = Array.isArray(arr) ? arr.length : 0;
+    }
+    if (infoR.status === 'fulfilled' && infoR.value.ok) {
+      const info = await infoR.value.json();
+      max = info?.vars?.sv_maxClients || info?.vars?.sv_maxclients || 0;
+    }
+    if (clients > 0 || max > 0) {
+      setState('ok', 'Na spletu', `${clients}/${max || '?'} igralcev`);
+    } else {
+      setState('warn', 'Stanje neznano', 'Klikni “Igraj prek cfx.re”');
+    }
+  } catch {
+    setState('warn', 'Stanje neznano', 'Klikni “Igraj prek cfx.re”');
+  }
+}
+preveriStatus();
+setInterval(preveriStatus, 60_000);
